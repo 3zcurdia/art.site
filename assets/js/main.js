@@ -10,13 +10,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.addEventListener("click", function () {
+      const isHidden = mobileMenu.classList.contains("hidden");
       mobileMenu.classList.toggle("hidden");
+
+      // Update aria-expanded for accessibility
+      mobileMenuBtn.setAttribute("aria-expanded", !isHidden);
     });
 
     // Close mobile menu when clicking a link
     mobileMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
         mobileMenu.classList.add("hidden");
+        mobileMenuBtn.setAttribute("aria-expanded", "false");
       });
     });
   }
