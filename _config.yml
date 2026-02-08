@@ -27,5 +27,5 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
-  - LICENSE.md
   - AGENTS.md
+  - LICENSE
