@@ -13,13 +13,17 @@
         theme: {
           extend: {
             colors: {
-              blush: "#fce7f3",
-              "rose-light": "#fbcfe8",
-              cream: "#fef3c7",
-              "rose-gold": "#b76e79",
-              "dusty-rose": "#d4a5a5",
-              "soft-pink": "#f8e1e7",
-              champagne: "#f7e7ce",
+              // Japanese-inspired coquette palette
+              "dusty-sage": "#8a9a7d",
+              "soft-cream": "#f8f5f0",
+              "muted-rose": "#c58f93",
+              "aqua-teal": "#6d9b9b",
+              "warm-ivory": "#faf8f3",
+              "sage-green": "#7a8d7a",
+              "soft-gray": "#9b9995",
+              "pale-aqua": "#8fb3b3",
+              "muted-coral": "#d4a5a5",
+              "deep-teal": "#5a7a7a",
             },
             fontFamily: {
               serif: ["Playfair Display", "Georgia", "serif"],
@@ -123,16 +127,16 @@
 
       /* Delicate borders */
       .border-delicate {
-        border: 1px solid rgba(183, 110, 121, 0.3);
+        border: 1px solid rgba(197, 143, 147, 0.3);
       }
 
-      /* Soft shadow */
+      /* Soft shadow with Japanese aesthetic */
       .shadow-romantic {
-        box-shadow: 0 4px 20px rgba(212, 165, 165, 0.25);
+        box-shadow: 0 4px 20px rgba(122, 141, 122, 0.2);
       }
     </style>
   </head>
-  <body class="bg-cream text-gray-800">
+  <body class="bg-warm-ivory text-gray-800">
     {% include nav.html %}
 
     <main>{{ content }}</main>
