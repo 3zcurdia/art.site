@@ -1,0 +1,87 @@
+<nav
+  id="navbar"
+  class="fixed w-full top-0 z-50 transition-all duration-300 bg-cream/90 backdrop-blur-sm"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20">
+      <!-- Logo -->
+      <a href="#hero" class="flex items-center space-x-3">
+        <img
+          src="{{ '/assets/images/logo.jpg' | relative_url }}"
+          alt="IE Logo"
+          class="h-12 w-12 object-contain"
+        />
+        <span class="font-serif text-xl text-rose-gold hidden sm:block"
+          >Irasema Ezcurdia</span
+        >
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a
+          href="#hero"
+          class="nav-link text-gray-700 hover:text-rose-gold transition-colors font-medium"
+          >Inicio</a
+        >
+        <a
+          href="#portfolio"
+          class="nav-link text-gray-700 hover:text-rose-gold transition-colors font-medium"
+          >Portafolio</a
+        >
+        <a
+          href="#about"
+          class="nav-link text-gray-700 hover:text-rose-gold transition-colors font-medium"
+          >Sobre Mí</a
+        >
+        <a
+          href="#testimonials"
+          class="nav-link text-gray-700 hover:text-rose-gold transition-colors font-medium"
+          >Testimonios</a
+        >
+        <a
+          href="#contact"
+          class="nav-link text-gray-700 hover:text-rose-gold transition-colors font-medium"
+          >Contacto</a
+        >
+      </div>
+
+      <!-- Mobile menu button -->
+      <button id="mobile-menu-btn" class="md:hidden text-rose-gold p-2">
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden pb-4">
+      <a href="#hero" class="block py-2 text-gray-700 hover:text-rose-gold"
+        >Inicio</a
+      >
+      <a href="#portfolio" class="block py-2 text-gray-700 hover:text-rose-gold"
+        >Portafolio</a
+      >
+      <a href="#about" class="block py-2 text-gray-700 hover:text-rose-gold"
+        >Sobre Mí</a
+      >
+      <a
+        href="#testimonials"
+        class="block py-2 text-gray-700 hover:text-rose-gold"
+        >Testimonios</a
+      >
+      <a href="#contact" class="block py-2 text-gray-700 hover:text-rose-gold"
+        >Contacto</a
+      >
+    </div>
+  </div>
+</nav>
