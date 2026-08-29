@@ -11,7 +11,7 @@ title: Irasema Ezcurdia | Art Toys, Miniaturas y Cerámica
   <!-- Background Image -->
   <div class="absolute inset-0">
     <img
-      src="{{ '/assets/images/DSC_0092.webp' | relative_url }}"
+      src="{{ '/assets/images/portfolio/DSC_0092.webp' | relative_url }}"
       alt="Artwork Background"
       class="w-full h-full object-cover opacity-40"
     />
@@ -125,10 +125,10 @@ title: Irasema Ezcurdia | Art Toys, Miniaturas y Cerámica
       <div class="reveal group">
         <div
           class="relative overflow-hidden rounded-2xl shadow-romantic border-2 border-warm-ivory cursor-pointer transform transition-all duration-500 hover:scale-[1.02] hover:shadow-xl"
-          onclick="openLightbox('{{ '/assets/images/' | append: image | relative_url }}')"
+          onclick="openLightbox('{{ '/assets/images/portfolio/' | append: image | relative_url }}')"
         >
           <img
-            src="{{ '/assets/images/' | append: image | relative_url }}"
+            src="{{ '/assets/images/portfolio/' | append: image | relative_url }}"
             alt="Artwork by Irasema Ezcurdia"
             class="w-full h-72 object-cover transition-transform duration-700 group-hover:scale-110"
             loading="lazy"
@@ -144,11 +144,81 @@ title: Irasema Ezcurdia | Art Toys, Miniaturas y Cerámica
       </div>
       {% endfor %}
     </div>
+
+    <!-- Link to full portfolio -->
+    <div class="text-center mt-12 reveal">
+      <a
+        href="{{ '/full-portfolio/' | relative_url }}"
+        class="inline-block bg-dusty-sage hover:bg-sage-green text-white font-medium px-8 py-3 rounded-full shadow-romantic transition-all duration-300 transform hover:scale-105"
+        >Ver Portafolio Completo</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- Video Section -->
+<section id="video" class="py-24 bg-soft-cream">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center mb-16 reveal">
+      <span class="text-muted-rose text-sm uppercase tracking-widest"
+        >En Movimiento</span
+      >
+      <h2 class="font-serif text-4xl md:text-5xl text-dusty-sage mt-2 mb-4">
+        Video
+      </h2>
+      <div class="flex items-center justify-center">
+        <div class="h-px w-12 bg-dusty-rose/40"></div>
+        <span class="mx-4 text-dusty-rose">✧</span>
+        <div class="h-px w-12 bg-dusty-rose/40"></div>
+      </div>
+      <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+        El proceso y el detalle de las piezas mientras cobran forma: una mirada
+        en movimiento al taller.
+      </p>
+    </div>
+
+    <!-- Video Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {% assign videos =
+      "kaerus|Kaerus|9 / 16,eggplant|Berenjena|9 / 16,porcelain-doll-face-wip|Rostro de porcelana|3 / 4,IMG_1179|Detalle en proceso|9 / 16,chile|Chile|9 / 16,pez-con-patas|Pez con patas|9 / 16,pecera|Pecera|9 / 16,tazita-pollo-grande|Tazita pollo grande|9 / 16,budno-chupon|Budno chupón|9 / 16"
+      | split: "," %} {% for video in videos %} {% assign fields = video | split:
+      "|" %} {% assign file = fields[0] %} {% assign title = fields[1] %} {%
+      assign ratio = fields[2] %}
+      <div class="reveal group w-full max-w-xs sm:max-w-none mx-auto">
+        <div
+          class="relative overflow-hidden rounded-2xl shadow-romantic border-2 border-white bg-dusty-sage/5"
+        >
+          <video
+            class="w-full h-auto object-cover"
+            style="aspect-ratio: {{ ratio }}"
+            controls
+            playsinline
+            preload="none"
+            aria-label="Video: {{ title }}"
+            poster="{{ '/assets/videos/' | append: file | append: '-poster.webp' | relative_url }}"
+          >
+            <source
+              src="{{ '/assets/videos/' | append: file | append: '.mp4' | relative_url }}"
+              type="video/mp4"
+            />
+            Tu navegador no puede reproducir este video.
+          </video>
+        </div>
+        <p class="mt-3 text-center font-serif text-lg text-dusty-sage">
+          {{ title }}
+        </p>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
 <!-- About Section -->
-<section id="about" class="py-24 bg-soft-cream">
+<section
+  id="about"
+  class="py-24 bg-gradient-to-b from-soft-cream to-warm-ivory"
+>
   <div class="max-w-7xl mx-auto px-4">
     <div class="grid md:grid-cols-2 gap-12 items-center">
       <!-- Image -->
@@ -239,6 +309,250 @@ title: Irasema Ezcurdia | Art Toys, Miniaturas y Cerámica
           <span
             class="px-4 py-2 bg-warm-ivory rounded-full text-dusty-sage text-sm border border-muted-rose/20"
             >Vitralería</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trajectory Section -->
+<section id="trayectoria" class="py-24 bg-warm-ivory">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center mb-16 reveal">
+      <span class="text-muted-rose text-sm uppercase tracking-widest"
+        >Trayectoria</span
+      >
+      <h2 class="font-serif text-4xl md:text-5xl text-dusty-sage mt-2 mb-4">
+        Formación & Logros
+      </h2>
+      <div class="flex items-center justify-center">
+        <div class="h-px w-12 bg-muted-rose/40"></div>
+        <span class="mx-4 text-muted-rose">✧</span>
+        <div class="h-px w-12 bg-muted-rose/40"></div>
+      </div>
+      <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+        Siete años de experiencia como escultora, ceramista, miniaturista y
+        fotógrafa, con presencia en México y el mundo.
+      </p>
+    </div>
+
+    <!-- Trajectory Grid -->
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Visual Artist Experience -->
+      <div
+        class="reveal bg-white rounded-3xl p-8 shadow-romantic border border-muted-rose/20"
+      >
+        <h3 class="font-serif text-2xl text-dusty-sage mb-6">
+          Experiencia como Artista Visual
+        </h3>
+        <ul class="space-y-3 text-gray-600">
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Trabaja para <strong>Armadillo Studio</strong>,
+              y <strong>ENPEG La Esmeralda</strong>,
+              INBA, México.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Siete años de experiencia como escultora, ceramista y
+              miniaturista.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Modelado en resina, cerámica, porcelana, arcilla polimérica y
+              epóxica.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span>Elaboración de moldes para vaciado en resina.</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Construcción manual con técnicas de pellizco, placa y
+              rollo.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span>Manejo de horno eléctrico y torno eléctrico.</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Modelado de rostros, objetos útiles y muñecas BJD.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span>Pintura realista en escalas 1/4, 1/6 y 1/12.</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Tallado en madera, vitralería, customización de muñecas, bordado
+              y costura.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Maestra de cerámica en español e inglés para niños y adultos en
+              diversos talleres.</span
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Photography Experience -->
+      <div
+        class="reveal bg-white rounded-3xl p-8 shadow-romantic border border-muted-rose/20"
+      >
+        <h3 class="font-serif text-2xl text-dusty-sage mb-6">
+          Experiencia como Fotógrafa
+        </h3>
+        <ul class="space-y-3 text-gray-600">
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Egresada de <strong>Activa, Escuela de Fotografía</strong>, con
+              beca por excelente desempeño.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Dominio de cámara en formatos medio, gran formato, digital y
+              análogo.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span>Especialización en retrato, interiores y producto.</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span>Edición fotográfica en Adobe Photoshop.</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span>Captura y edición de video en Final Cut y CapCut.</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Cobertura de puestas en escena, conferencias, inauguraciones y
+              eventos sociales para medios como El Universal, La Jornada, México
+              Desconocido y Sin Embargo.</span
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Current Projects -->
+      <div
+        class="reveal md:col-span-2 bg-white rounded-3xl p-8 shadow-romantic border border-muted-rose/20"
+      >
+        <h3 class="font-serif text-2xl text-dusty-sage mb-6">
+          Proyectos Actuales
+        </h3>
+        <ul class="space-y-3 text-gray-600">
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Creación de piezas únicas de cerámica y porcelana, como
+              expresión artística y como objetos útiles.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >El modelado aplicado al miniaturismo como manifestación de una
+              emotividad compleja.</span
+            >
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span>Customización de muñecas y otros artículos de colección.</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-muted-rose mr-3 mt-1">✧</span>
+            <span
+              >Una serie de videos de poesía visual sobre sus piezas y de
+              carácter autobiográfico.</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Noteworthy Achievements -->
+    <div
+      class="reveal mt-8 bg-gradient-to-r from-soft-cream to-warm-ivory rounded-3xl p-8 shadow-romantic border border-muted-rose/20"
+    >
+      <h3 class="font-serif text-2xl text-dusty-sage mb-6 text-center">
+        Logros Destacados
+      </h3>
+      <div class="grid md:grid-cols-2 gap-6 text-gray-600">
+        <div class="flex items-start">
+          <span class="text-muted-rose mr-3 mt-1">✧</span>
+          <span
+            ><strong>Primer lugar entre los países hispanohablantes</strong> y
+            sexto lugar mundial en el certamen internacional
+            <span class="italic">Mili Dueli</span>, celebrado en Bosnia
+            Herzegovina. Un logro como poeta visual.</span
+          >
+        </div>
+        <div class="flex items-start">
+          <span class="text-muted-rose mr-3 mt-1">✧</span>
+          <span
+            >Una reseña internacional de la revista
+            <a
+              href="https://pijamasurf.com/2024/09/irasema_ezcurdia/"
+              target="_blank"
+              rel="noopener"
+              class="text-dusty-sage hover:text-sage-green transition-colors underline"
+              >Pijama Surf</a
+            >
+            sobre toda su carrera como ceramista y artista visual.</span
+          >
+        </div>
+        <div class="flex items-start">
+          <span class="text-muted-rose mr-3 mt-1">✧</span>
+          <span
+            >La inclusión de sus piezas en la tienda
+            <strong>Mandarake</strong>, Tokio, Japón.</span
+          >
+        </div>
+        <div class="flex items-start">
+          <span class="text-muted-rose mr-3 mt-1">✧</span>
+          <span
+            >Una exposición conjunta en el
+            <strong>Centro Cultural Benemérito de las Américas</strong>,
+            Coyoacán, Ciudad de México.</span
+          >
+        </div>
+        <div class="flex items-start">
+          <span class="text-muted-rose mr-3 mt-1">✧</span>
+          <span
+            >La exposición de sus piezas en
+            <strong>Budno</strong> en <strong>SOMSOC ART SHOW 25</strong>, SOMSOC GALLERY, Harajuku,
+            Tokio, del 6 de septiembre al 5 de octubre de 2025.
+            <a
+              href="https://www.instagram.com/p/DO1G-a3j0UG/"
+              target="_blank"
+              rel="noopener"
+              class="text-dusty-sage hover:text-sage-green transition-colors underline"
+              >Ver publicación</a
+            >.</span
           >
         </div>
       </div>
@@ -389,12 +703,11 @@ title: Irasema Ezcurdia | Art Toys, Miniaturas y Cerámica
       <!-- Decorative Image -->
       <div class="flex justify-center">
         <img
-          src="{{ '/assets/images/DSC_0054.webp' | relative_url }}"
+          src="{{ '/assets/images/portfolio/DSC_0054.webp' | relative_url }}"
           alt="Artwork"
           class="rounded-2xl shadow-romantic w-full max-w-sm"
         />
       </div>
-    </div>
-  </div>
-  </div>
+     </div>
+   </div>
 </section>

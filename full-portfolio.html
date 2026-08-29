@@ -1,0 +1,57 @@
+---
+layout: default
+title: Portafolio Completo
+description: Todas las obras de Irasema Ezcurdia - art toys, miniaturas y cerámica.
+permalink: /full-portfolio/
+---
+
+{%- assign allImages = site.static_files | where_exp: "file", "file.path
+contains '/assets/images/portfolio/'" | where_exp: "file", "file.extname ==
+'.webp'" | sort: "name" -%}
+
+<section class="pt-32 pb-24 bg-gradient-to-b from-warm-ivory to-soft-cream">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center mb-16 reveal">
+      <span class="text-muted-rose text-sm uppercase tracking-widest"
+        >Colección Completa</span
+      >
+      <h1 class="font-serif text-4xl md:text-5xl text-dusty-sage mt-2 mb-4">
+        Portafolio Completo
+      </h1>
+      <div class="flex items-center justify-center">
+        <div class="h-px w-12 bg-dusty-rose/40"></div>
+        <span class="mx-4 text-dusty-rose">✧</span>
+        <div class="h-px w-12 bg-dusty-rose/40"></div>
+      </div>
+      <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+        Todas las piezas del taller, tal como están en el archivo: art toys,
+        miniaturas y cerámica. Haz clic en cualquier imagen para verla a
+        detalle.
+      </p>
+      <p class="text-sm text-soft-gray mt-2">{{ allImages.size }} imágenes</p>
+      <a
+        href="{{ '/' | relative_url }}"
+        class="inline-block mt-6 text-dusty-sage hover:text-muted-rose transition-colors font-medium"
+        >← Volver al inicio</a
+      >
+    </div>
+
+    <!-- Masonry Gallery -->
+    <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
+      {% for file in allImages %}
+      <figure
+        class="reveal group mb-4 break-inside-avoid overflow-hidden rounded-2xl shadow-romantic border-2 border-warm-ivory cursor-pointer transform transition-all duration-500 hover:shadow-xl"
+        onclick="openLightbox('{{ file.path | relative_url }}')"
+      >
+        <img
+          src="{{ file.path | relative_url }}"
+          alt="Obra de Irasema Ezcurdia - {{ file.basename }}"
+          class="w-full h-auto transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
