@@ -150,6 +150,64 @@ No automated testing framework is configured. Testing should be done manually by
 2. Maintain Spanish language consistency
 3. Update meta descriptions if needed
 
+## Image Processing (Portfolio)
+
+All portfolio images live in `assets/images/portfolio/` as `.webp` files. No other formats are accepted in this directory.
+
+### Source files
+
+Raw camera files (JPG, HEIC, PNG, RAW) live in `assets/images/` as a staging area. After conversion they may be deleted.
+
+### Conversion spec
+
+| Parameter | Value |
+|---|---|
+| **Format** | WebP, lossy (VP8/VP8X). Never lossless. |
+| **Long edge** | 1920 px. Short edge scales proportionally. |
+| **Aspect ratio** | Preserve original from source. Never force-crop. |
+| **Quality** | `cwebp -q 80` (default). Adjust only if file > 300 KB. |
+| **Target file size** | ≤ 300 KB per image. |
+
+### Naming convention
+
+Preserve the original camera filename (numeric). No suffixes, no prefixes, no orientation hints.
+
+| Pattern | Use |
+|---|---|
+| `IMG_NNNN.webp` | iPhone / digital cameras |
+| `DSC_NNNN.webp` | DSLR / mirrorless |
+| `kebab-case.webp` | Work-in-progress, scans, non-numbered sources |
+
+### Processing commands
+
+```bash
+# Long edge 1920, preserve aspect ratio
+cwebp -q 80 -resize 1920 0 input.jpg -o output.webp
+
+# Verify output
+identify -format '%f %wx%h %b\n' output.webp
+```
+
+### Validation checklist
+
+Before committing a new batch:
+1. All files in `assets/images/portfolio/` are `.webp`
+2. Long edge is exactly 1920 px (`identify -format '%w %h' file.webp`)
+3. No file exceeds 300 KB
+4. Filenames match original source (minus extension)
+5. Source files in `assets/images/` are cleaned up after conversion
+
+### Gallery auto-discovery
+
+`full-portfolio.html` auto-discovers images via:
+```liquid
+{%- assign allImages = site.static_files
+  | where_exp: "file", "file.path contains '/assets/images/portfolio/'"
+  | where_exp: "file", "file.extname == '.webp'"
+  | sort: "name" -%}
+```
+No manual registration needed — dropping a `.webp` into the directory makes it appear in the gallery.
+
 ## Important Notes
 
 - No package.json - this is a Ruby/Jekyll project

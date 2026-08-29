@@ -7,7 +7,7 @@ permalink: /full-portfolio/
 
 {%- assign allImages = site.static_files | where_exp: "file", "file.path
 contains '/assets/images/portfolio/'" | where_exp: "file", "file.extname ==
-'.webp'" | sort: "name" -%}
+'.webp'" | sort: "name" | reverse -%}
 
 <section class="pt-32 pb-24 bg-gradient-to-b from-warm-ivory to-soft-cream">
   <div class="max-w-7xl mx-auto px-4">
