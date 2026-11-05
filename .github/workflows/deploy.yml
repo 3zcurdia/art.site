@@ -39,6 +39,10 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
+      # Fails the deploy if an original was added without running `bin/images`.
+      - name: Verify responsive image variants
+        run: bin/images --check
+
       # `bridgetown deploy` runs `rake deploy`, which precompiles Tailwind
       # (npm run esbuild) and then generates the static site.
       - name: Build site

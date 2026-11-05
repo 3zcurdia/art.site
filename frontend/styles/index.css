@@ -4,9 +4,38 @@
 @source "../../src/**/*.{html,erb,md}";
 @source "../../src/assets/js/**/*.js";
 
+/*
+ * Self-hosted fonts (SIL Open Font License, see src/assets/fonts/OFL-*).
+ * Served from the site origin so there is no third-party request on the
+ * critical rendering path. Files are the latin subsets from Google Fonts.
+ */
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/assets/fonts/playfair-display-latin-400-700.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Quicksand";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("/assets/fonts/quicksand-latin-300-600.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @theme {
   /* Japanese-inspired coquette palette */
   --color-dusty-sage: #8a9a7d;
+  --color-forest-sage: #62735a;
+  --color-deep-sage: #52614a;
   --color-soft-cream: #f8f5f0;
   --color-muted-rose: #c58f93;
   --color-aqua-teal: #6d9b9b;
@@ -32,9 +61,11 @@
 /* Base typography */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  scrollbar-gutter: stable;
 }
 body {
-  font-family: "Quicksand", sans-serif;
+  font-family: var(--font-sans);
 }
 h1,
 h2,
@@ -42,7 +73,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-serif);
 }
 
 /* Custom animations */
@@ -92,22 +123,75 @@ h6 {
   position: absolute;
   top: 20px;
   right: 30px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: white;
   font-size: 40px;
+  line-height: 1;
   cursor: pointer;
   transition: transform 0.3s;
 }
 .lightbox-close:hover {
   transform: scale(1.2);
 }
+.lightbox-close:focus-visible,
+.video-facade:focus-visible {
+  outline: 2px solid var(--color-dusty-sage);
+  outline-offset: 4px;
+}
 
-/* Scroll reveal */
-.reveal {
+/* Video poster facade: click to load and play the real video */
+.video-facade {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-dusty-sage) 6%, transparent);
+}
+.video-facade img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+.video-facade:hover img {
+  transform: scale(1.04);
+}
+.video-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(90, 122, 122, 0.16);
+  transition: background 0.3s ease;
+}
+.video-facade:hover .video-play {
+  background: rgba(90, 122, 122, 0.28);
+}
+.video-play-icon {
+  width: 4rem;
+  height: 4rem;
+  padding: 0.9rem;
+  color: white;
+  background: rgba(138, 154, 125, 0.92);
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px rgba(122, 141, 122, 0.35);
+  transition: transform 0.3s ease;
+}
+.video-facade:hover .video-play-icon {
+  transform: scale(1.08);
+}
+
+/* Scroll reveal (only when JavaScript is available) */
+.js .reveal {
   opacity: 0;
   transform: translateY(40px);
-  transition: all 0.8s ease;
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
-.reveal.active {
+.js .reveal.active {
   opacity: 1;
   transform: translateY(0);
 }
@@ -120,4 +204,24 @@ h6 {
 /* Soft shadow with Japanese aesthetic */
 .shadow-romantic {
   box-shadow: 0 4px 20px rgba(122, 141, 122, 0.2);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-fade-in-up,
+  .animate-bounce {
+    animation: none;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .video-facade img,
+  .video-play-icon {
+    transition: none;
+  }
 }

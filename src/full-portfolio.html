@@ -4,8 +4,13 @@ title: Portafolio Completo
 description: Todas las obras de Irasema Ezcurdia - art toys, miniaturas y cerámica.
 permalink: /full-portfolio/
 ---
+<% variant_pattern = /-\d+w\z/ %>
 <% all_images = site.static_files
-  .select { |file| file.path.to_s.include?("assets/images/portfolio") && file.extname == ".webp" }
+  .select do |file|
+    file.relative_path.to_s.start_with?("/assets/images/portfolio/") &&
+      file.extname == ".webp" &&
+      !File.basename(file.name, ".*").match?(variant_pattern)
+  end
   .sort_by(&:name)
   .reverse %>
 
@@ -40,16 +45,36 @@ permalink: /full-portfolio/
     <!-- Masonry Gallery -->
     <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
       <% all_images.each do |file| %>
+      <% base = File.basename(file.name, ".*") %>
+      <% image_url = relative_url(file.relative_path) %>
+      <% dimensions = WebpDimensions.read(file.path) %>
+      <% src_width = dimensions ? dimensions[0] : 1920 %>
+      <% medium_url = src_width > 960 ? relative_url("/assets/images/portfolio/#{base}-960w.webp") : image_url %>
       <figure
-        class="reveal group mb-4 break-inside-avoid overflow-hidden rounded-2xl shadow-romantic border-2 border-warm-ivory cursor-pointer transform transition-all duration-500 hover:shadow-xl"
-        onclick="openLightbox('<%= relative_url file.path %>')"
+        class="reveal group mb-4 break-inside-avoid overflow-hidden rounded-2xl shadow-romantic border-2 border-warm-ivory transition-all duration-500 hover:shadow-xl"
       >
-        <img
-          src="<%= relative_url file.path %>"
-          alt="Obra de Irasema Ezcurdia - <%= File.basename(file.path, '.*') %>"
-          class="w-full h-auto transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
-        />
+        <button
+          type="button"
+          class="block w-full cursor-pointer"
+          data-lightbox="<%= image_url %>"
+          data-lightbox-alt="Obra de Irasema Ezcurdia - <%= base %>"
+          aria-label="Ampliar obra <%= base %>"
+        >
+          <img
+            src="<%= medium_url %>"
+            srcset="
+              <% if src_width > 480 %><%= relative_url "/assets/images/portfolio/#{base}-480w.webp" %> 480w,<% end %>
+              <% if src_width > 960 %><%= relative_url "/assets/images/portfolio/#{base}-960w.webp" %> 960w,<% end %>
+              <%= image_url %> <%= src_width %>w
+            "
+            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 46vw, 100vw"
+            <% if dimensions %>width="<%= dimensions[0] %>" height="<%= dimensions[1] %>"<% end %>
+            alt="Obra de Irasema Ezcurdia - <%= base %>"
+            loading="lazy"
+            decoding="async"
+            class="w-full h-auto transition-transform duration-700 group-hover:scale-105"
+          />
+        </button>
       </figure>
       <% end %>
     </div>

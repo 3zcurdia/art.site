@@ -1,0 +1,114 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Generates the responsive WebP variants used by the templates.
+#
+#   bin/images           generate missing/outdated variants
+#   bin/images --force   regenerate every variant
+#   bin/images --check   exit non-zero if a variant is missing (for CI)
+#
+# Portfolio originals stay at their full size for the lightbox. Variants use a
+# `-<width>w.webp` suffix and are excluded from gallery auto-discovery.
+
+require "fileutils"
+require_relative "../plugins/webp_dimensions"
+
+ROOT = File.expand_path("..", __dir__)
+IMAGES_DIR = File.join(ROOT, "src/assets/images")
+PORTFOLIO_DIR = File.join(IMAGES_DIR, "portfolio")
+VIDEOS_DIR = File.join(ROOT, "src/assets/videos")
+
+QUALITY = 80
+PORTFOLIO_WIDTHS = [480, 960].freeze
+POSTER_WIDTHS = [320, 640].freeze
+PHOTO_WIDTH = 1024
+
+FORCE = ARGV.include?("--force")
+CHECK = ARGV.include?("--check")
+
+def variant?(path)
+  File.basename(path, ".*").match?(/-\d+w\z/)
+end
+
+def variant_path(source, width)
+  source.sub(/\.webp\z/, "-#{width}w.webp")
+end
+
+def jobs
+  @jobs ||= begin
+    originals = Dir[File.join(PORTFOLIO_DIR, "*.webp")].reject { |path| variant?(path) }
+    posters = Dir[File.join(VIDEOS_DIR, "*-poster.webp")].reject { |path| variant?(path) }
+
+    list = originals.flat_map { |source| PORTFOLIO_WIDTHS.map { |width| [source, width] } }
+    list += posters.flat_map { |source| POSTER_WIDTHS.map { |width| [source, width] } }
+    list << [File.join(IMAGES_DIR, "photo.webp"), PHOTO_WIDTH]
+    list
+  end
+end
+
+def source_width(source)
+  dimensions = WebpDimensions.read(source)
+  abort "No se pudieron leer las dimensiones de #{source}" unless dimensions
+  dimensions[0]
+end
+
+def needed?(source, width)
+  source_width(source) > width
+end
+
+def current?(source, width)
+  target = variant_path(source, width)
+  File.exist?(target) && File.mtime(target) >= File.mtime(source)
+end
+
+def cwebp_available?
+  ENV["PATH"].to_s.split(File::PATH_SEPARATOR).any? do |dir|
+    File.executable?(File.join(dir, "cwebp"))
+  end
+end
+
+if CHECK
+  missing = jobs.select { |source, width| needed?(source, width) && !File.exist?(variant_path(source, width)) }
+
+  if missing.empty?
+    puts "OK: todas las variantes responsive existen."
+    exit 0
+  end
+
+  warn "Faltan #{missing.size} variantes responsive:"
+  missing.each { |source, width| warn "  #{variant_path(source, width).delete_prefix("#{ROOT}/")}" }
+  warn "Ejecuta `bin/images` y vuelve a intentarlo."
+  exit 1
+end
+
+abort "cwebp no está instalado (brew install webp)." unless cwebp_available?
+
+counts = Hash.new(0)
+
+jobs.each do |source, width|
+  unless needed?(source, width)
+    counts[:skipped] += 1
+    next
+  end
+
+  if !FORCE && current?(source, width)
+    counts[:current] += 1
+    next
+  end
+
+  target = variant_path(source, width)
+  ok = system("cwebp", "-quiet", "-q", QUALITY.to_s, "-resize", width.to_s, "0", source, "-o", target)
+
+  if ok
+    counts[:generated] += 1
+    puts "#{target.delete_prefix("#{ROOT}/")} (#{File.size(target) / 1024} KB)"
+  else
+    counts[:failed] += 1
+    warn "Falló: #{source} -> #{target}"
+  end
+end
+
+puts "Listo: #{counts[:generated]} generadas, #{counts[:current]} al día, " \
+     "#{counts[:skipped]} omitidas por tamaño, #{counts[:failed]} con error."
+
+exit(counts[:failed].zero? ? 0 : 1)

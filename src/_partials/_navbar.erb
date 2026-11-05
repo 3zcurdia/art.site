@@ -1,14 +1,17 @@
 <nav
   id="navbar"
+  aria-label="Principal"
   class="fixed w-full top-0 z-50 transition-all duration-300 bg-warm-ivory/95 backdrop-blur-sm"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-20">
       <!-- Logo -->
-      <a href="#hero" class="flex items-center space-x-3">
+      <a href="<%= relative_url '/' %>#hero" class="flex items-center space-x-3">
         <img
           src="<%= relative_url '/assets/images/logo.webp' %>"
           alt="IE Logo"
+          width="320"
+          height="320"
           class="h-12 w-12 object-contain"
         />
         <span class="font-serif text-xl text-dusty-sage hidden sm:block"
@@ -19,37 +22,37 @@
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center space-x-8">
         <a
-          href="#hero"
+          href="<%= relative_url '/' %>#hero"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
           >Inicio</a
         >
         <a
-          href="#portfolio"
+          href="<%= relative_url '/' %>#portfolio"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
           >Portafolio</a
         >
         <a
-          href="#video"
+          href="<%= relative_url '/' %>#video"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
           >Video</a
         >
         <a
-          href="#about"
+          href="<%= relative_url '/' %>#about"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
           >Sobre Mí</a
         >
         <a
-          href="#trayectoria"
+          href="<%= relative_url '/' %>#trayectoria"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
           >Trayectoria</a
         >
         <a
-          href="#testimonials"
+          href="<%= relative_url '/' %>#testimonials"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
           >Testimonios</a
         >
         <a
-          href="#contact"
+          href="<%= relative_url '/' %>#contact"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
           >Contacto</a
         >
@@ -61,6 +64,7 @@
         class="md:hidden text-dusty-sage p-2"
         aria-label="Abrir menú de navegación"
         aria-expanded="false"
+        aria-controls="mobile-menu"
       >
         <svg
           class="w-6 h-6"
@@ -82,31 +86,31 @@
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden pb-4">
-      <a href="#hero" class="block py-2 text-gray-700 hover:text-dusty-sage"
+      <a href="<%= relative_url '/' %>#hero" class="block py-2 text-gray-700 hover:text-dusty-sage"
         >Inicio</a
       >
       <a
-        href="#portfolio"
+        href="<%= relative_url '/' %>#portfolio"
         class="block py-2 text-gray-700 hover:text-dusty-sage"
         >Portafolio</a
       >
-      <a href="#video" class="block py-2 text-gray-700 hover:text-dusty-sage"
+      <a href="<%= relative_url '/' %>#video" class="block py-2 text-gray-700 hover:text-dusty-sage"
         >Video</a
       >
-      <a href="#about" class="block py-2 text-gray-700 hover:text-dusty-sage"
+      <a href="<%= relative_url '/' %>#about" class="block py-2 text-gray-700 hover:text-dusty-sage"
         >Sobre Mí</a
       >
       <a
-        href="#trayectoria"
+        href="<%= relative_url '/' %>#trayectoria"
         class="block py-2 text-gray-700 hover:text-dusty-sage"
         >Trayectoria</a
       >
       <a
-        href="#testimonials"
+        href="<%= relative_url '/' %>#testimonials"
         class="block py-2 text-gray-700 hover:text-dusty-sage"
         >Testimonios</a
       >
-      <a href="#contact" class="block py-2 text-gray-700 hover:text-dusty-sage"
+      <a href="<%= relative_url '/' %>#contact" class="block py-2 text-gray-700 hover:text-dusty-sage"
         >Contacto</a
       >
     </div>
