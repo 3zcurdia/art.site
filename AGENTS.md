@@ -149,10 +149,9 @@ No automated testing framework is configured. Testing should be done manually by
 ## Deployment
 
 - The site is deployed to GitHub Pages through `.github/workflows/deploy.yml`
-- A push to `main` runs `bin/bridgetown deploy` (Tailwind precompile + site build) and publishes `output/` to the `gh-pages` branch
-- The workflow adds `output/.nojekyll` so GitHub Pages does not strip the `_bridgetown/` asset directory
-- GitHub Pages must be configured in the repository settings to deploy from the `gh-pages` branch
-- The custom domain is defined by `src/CNAME` (`ezcurdia.art`)
+- A push to `main` runs `bin/bridgetown deploy` (Tailwind precompile + site build), uploads `output/` as a Pages artifact, and deploys it with `actions/deploy-pages`
+- GitHub Pages must be configured in the repository settings with Source: **GitHub Actions**
+- The custom domain is `ezcurdia.art` (configured in the repository's Pages settings; `src/CNAME` documents it)
 - Test thoroughly before merging to `main`
 
 ## Common Tasks

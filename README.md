@@ -22,7 +22,7 @@ This precompiles Tailwind and generates the static site into `output/`.
 
 ## Deployment
 
-Pushes to `main` trigger the GitHub Actions workflow in `.github/workflows/deploy.yml`, which builds the site and publishes `output/` to the `gh-pages` branch. GitHub Pages serves that branch at [ezcurdia.art](https://ezcurdia.art).
+Pushes to `main` trigger the GitHub Actions workflow in `.github/workflows/deploy.yml`, which builds the site (precompiling Tailwind) and deploys it to GitHub Pages using the official Pages Actions. GitHub Pages must be set to deploy from **GitHub Actions** in the repository settings. The site is served at [ezcurdia.art](https://ezcurdia.art).
 
 ## Licence
 
