@@ -1,0 +1,34 @@
+<%
+  site_title = site.metadata.title
+  raw_title = data.title || site_title
+  page_title = raw_title.include?(site_title) ? raw_title : "#{raw_title} | #{site_title}"
+  page_description = data.description || site.metadata.description
+  canonical_url = resource.respond_to?(:absolute_url) ? resource.absolute_url : absolute_url(resource.url)
+  og_image = absolute_url(data.image || site.metadata.image || "/assets/images/og-default.jpg")
+  og_image_alt = data.image_alt || "Obra de Irasema Ezcurdia"
+  robots = data.robots || "index, follow"
+%>
+<title><%= page_title %></title>
+<meta name="description" content="<%= page_description %>" />
+<meta name="author" content="<%= site.metadata.author || site_title %>" />
+<meta name="robots" content="<%= robots %>" />
+<% if data.canonical != false %>
+<link rel="canonical" href="<%= canonical_url %>" />
+<% end %>
+<link rel="icon" href="<%= relative_url '/favicon.ico' %>" sizes="any" />
+<link rel="apple-touch-icon" sizes="180x180" href="<%= relative_url '/apple-touch-icon.png' %>" />
+<meta name="theme-color" content="#faf8f3" />
+
+<meta property="og:type" content="<%= data.og_type || 'website' %>" />
+<meta property="og:site_name" content="<%= site_title %>" />
+<meta property="og:title" content="<%= page_title %>" />
+<meta property="og:description" content="<%= page_description %>" />
+<% if data.canonical != false %>
+<meta property="og:url" content="<%= canonical_url %>" />
+<% end %>
+<meta property="og:image" content="<%= og_image %>" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="<%= og_image_alt %>" />
+<meta property="og:locale" content="es_MX" />

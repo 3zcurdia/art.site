@@ -253,6 +253,17 @@ Before committing a new batch:
 5. `bin/images` ran and `bin/images --check` passes
 6. Source files in `src/assets/images/` are cleaned up after conversion
 
+### Artwork metadata and work pages
+
+`src/_data/artworks.csv` is the metadata source for the portfolio. One row per original image, keyed by `filename` (for example `DSC_0015.webp`).
+
+- `title`, `alt`, `category`, `year`, `technique`, `dimensions`, and `description` feed the gallery captions and the individual work pages.
+- `featured: true` marks the 12 homepage pieces. A featured row with a `title` generates `/obras/<slug>/` at build time through `plugins/artwork_pages_generator.rb`.
+- `slug` is optional. When empty, the slug comes from the title; if the title is also empty, from the filename.
+- Duplicate or empty slugs are skipped, and the gallery never links to a page that was not generated.
+- Leave cells blank until the metadata is known. Templates fall back to generic alt text and omit captions.
+- 1200×630 JPEG social previews live in `src/assets/images/og-obras/`. The generator uses one when present and falls back to `og-default.jpg`.
+
 ### Gallery auto-discovery
 
 `src/full-portfolio.html` auto-discovers originals in ERB and ignores generated variants:

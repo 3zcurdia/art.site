@@ -6,7 +6,7 @@
       <!-- Logo -->
       <img
         src="<%= relative_url '/assets/images/logo.webp' %>"
-        alt="IE Logo"
+        alt=""
         width="320"
         height="320"
         class="h-16 w-16 object-contain mx-auto mb-4"
@@ -14,12 +14,57 @@
       <p class="font-serif text-2xl text-dusty-sage mb-2">Irasema Ezcurdia</p>
       <p class="text-soft-gray mb-6">Art Toys • Miniaturas • Cerámica</p>
 
+      <!-- Site links -->
+      <nav aria-label="Enlaces del sitio" class="mb-6">
+        <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
+          <li>
+            <a
+              href="<%= relative_url '/full-portfolio/' %>"
+              class="text-dusty-sage hover:text-muted-rose transition-colors"
+              >Portafolio completo</a
+            >
+          </li>
+          <li>
+            <a
+              href="<%= relative_url '/sobre-mi/' %>"
+              class="text-dusty-sage hover:text-muted-rose transition-colors"
+              >Sobre mí</a
+            >
+          </li>
+          <li>
+            <a
+              href="<%= relative_url '/prensa/' %>"
+              class="text-dusty-sage hover:text-muted-rose transition-colors"
+              >Prensa y exposiciones</a
+            >
+          </li>
+          <li>
+            <a
+              href="<%= relative_url '/contacto/' %>"
+              class="text-dusty-sage hover:text-muted-rose transition-colors"
+              >Contacto</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Contact -->
+      <p class="text-sm text-soft-gray mb-8">
+        <a
+          href="mailto:<%= site.metadata.email %>"
+          class="hover:text-muted-rose transition-colors"
+          ><%= site.metadata.email %></a
+        >
+        <span class="mx-2" aria-hidden="true">·</span>
+        <span><%= site.metadata.location %></span>
+      </p>
+
       <!-- Social Links -->
       <div class="flex justify-center space-x-6 mb-8">
         <a
-          href="https://www.instagram.com/irasema_ezcurdia/"
+          href="<%= site.metadata.instagram %>"
           target="_blank"
-          rel="noopener"
+          rel="me noopener"
           class="text-dusty-sage hover:text-muted-rose transition-colors"
           aria-label="Instagram de Irasema Ezcurdia @irasema_ezcurdia"
         >

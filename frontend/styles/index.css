@@ -196,6 +196,12 @@ h6 {
   transform: translateY(0);
 }
 
+/* Current page marker in the navigation */
+#navbar a[aria-current="page"] {
+  color: var(--color-rose-gold);
+  font-weight: 600;
+}
+
 /* Delicate borders */
 .border-delicate {
   border: 1px solid rgba(197, 143, 147, 0.3);

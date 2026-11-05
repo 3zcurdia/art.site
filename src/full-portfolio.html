@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Portafolio Completo
-description: Todas las obras de Irasema Ezcurdia - art toys, miniaturas y cerámica.
+description: "Explora todas las obras de Irasema Ezcurdia: cerámica, miniaturas, art toys y customización de muñecas. Piezas únicas hechas a mano en México."
 permalink: /full-portfolio/
 ---
 <% variant_pattern = /-\d+w\z/ %>
@@ -13,6 +13,21 @@ permalink: /full-portfolio/
   end
   .sort_by(&:name)
   .reverse %>
+<% artwork_rows = site.data.artworks || [] %>
+<% artworks = artwork_rows.each_with_object({}) { |artwork, map| map[artwork.filename] = artwork } %>
+<% work_slugs = ArtworkData.page_slugs(site) %>
+<% grouped_images = all_images.group_by { |file| artworks[file.name]&.category.to_s.strip } %>
+<% has_categories = grouped_images.keys.any? { |category| !category.empty? } %>
+<% image_groups = if has_categories
+     grouped_images.sort_by { |category, _| [category.empty? ? 1 : 0, category] }
+   else
+     [["", all_images]]
+   end %>
+<% slugify = lambda do |text|
+     text.to_s.unicode_normalize(:nfkd)
+       .encode("ASCII", invalid: :replace, undef: :replace, replace: "")
+       .downcase.gsub(/[^a-z0-9]+/, "-").gsub(/\A-+|-+\z/, "")
+   end %>
 
 <section class="pt-32 pb-24 bg-gradient-to-b from-warm-ivory to-soft-cream">
   <div class="max-w-7xl mx-auto px-4">
@@ -34,6 +49,11 @@ permalink: /full-portfolio/
         miniaturas y cerámica. Haz clic en cualquier imagen para verla a
         detalle.
       </p>
+      <p class="text-gray-600 mt-3 max-w-2xl mx-auto">
+        Esta colección reúne cerámica, porcelana, miniaturas y art toys creados
+        a mano en el taller de Irasema Ezcurdia, en Ciudad de México. Cada pieza
+        es única y está pensada para mirarse de cerca.
+      </p>
       <p class="text-sm text-soft-gray mt-2"><%= all_images.size %> imágenes</p>
       <a
         href="<%= relative_url '/' %>"
@@ -42,41 +62,107 @@ permalink: /full-portfolio/
       >
     </div>
 
+    <% if has_categories %>
+    <nav aria-label="Categorías del portafolio" class="reveal mb-10">
+      <ul class="flex flex-wrap justify-center gap-3">
+        <% image_groups.each do |category, images| %>
+        <% next if images.empty? %>
+        <% group_label = category.empty? ? "Otras obras" : category %>
+        <li>
+          <a
+            href="#categoria-<%= slugify.call(group_label) %>"
+            class="inline-block px-4 py-2 bg-white rounded-full text-dusty-sage text-sm border border-muted-rose/20 hover:border-muted-rose transition-colors"
+            ><%= group_label %></a
+          >
+        </li>
+        <% end %>
+      </ul>
+    </nav>
+    <% end %>
+
     <!-- Masonry Gallery -->
-    <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
-      <% all_images.each do |file| %>
-      <% base = File.basename(file.name, ".*") %>
-      <% image_url = relative_url(file.relative_path) %>
-      <% dimensions = WebpDimensions.read(file.path) %>
-      <% src_width = dimensions ? dimensions[0] : 1920 %>
-      <% medium_url = src_width > 960 ? relative_url("/assets/images/portfolio/#{base}-960w.webp") : image_url %>
-      <figure
-        class="reveal group mb-4 break-inside-avoid overflow-hidden rounded-2xl shadow-romantic border-2 border-warm-ivory transition-all duration-500 hover:shadow-xl"
-      >
-        <button
-          type="button"
-          class="block w-full cursor-pointer"
-          data-lightbox="<%= image_url %>"
-          data-lightbox-alt="Obra de Irasema Ezcurdia - <%= base %>"
-          aria-label="Ampliar obra <%= base %>"
-        >
-          <img
-            src="<%= medium_url %>"
-            srcset="
-              <% if src_width > 480 %><%= relative_url "/assets/images/portfolio/#{base}-480w.webp" %> 480w,<% end %>
-              <% if src_width > 960 %><%= relative_url "/assets/images/portfolio/#{base}-960w.webp" %> 960w,<% end %>
-              <%= image_url %> <%= src_width %>w
-            "
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 46vw, 100vw"
-            <% if dimensions %>width="<%= dimensions[0] %>" height="<%= dimensions[1] %>"<% end %>
-            alt="Obra de Irasema Ezcurdia - <%= base %>"
-            loading="lazy"
-            decoding="async"
-            class="w-full h-auto transition-transform duration-700 group-hover:scale-105"
-          />
-        </button>
-      </figure>
+    <% image_groups.each do |category, images| %>
+    <% next if images.empty? %>
+    <% group_label = category.empty? ? (has_categories ? "Otras obras" : "") : category %>
+    <% group_id = group_label.empty? ? nil : "categoria-#{slugify.call(group_label)}" %>
+    <section <% if group_id %>id="<%= group_id %>"<% end %> class="<%= group_id ? 'mb-16 scroll-mt-24' : '' %>">
+      <% unless group_label.empty? %>
+      <div class="text-center mb-8 reveal">
+        <h2 class="font-serif text-3xl text-dusty-sage"><%= group_label %></h2>
+        <p class="text-sm text-soft-gray mt-1">
+          <%= images.size %> <%= images.size == 1 ? "obra" : "obras" %>
+        </p>
+      </div>
       <% end %>
+
+      <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
+        <% images.each do |file| %>
+        <% base = File.basename(file.name, ".*") %>
+        <% artwork = artworks[file.name] %>
+        <% alt = artwork&.alt.to_s.strip %>
+        <% alt = "Obra de Irasema Ezcurdia" if alt.empty? %>
+        <% title = artwork&.title.to_s.strip %>
+        <% work_slug = work_slugs[file.name] %>
+        <% work_url = work_slug ? relative_url("/obras/#{work_slug}/") : nil %>
+        <% image_url = relative_url(file.relative_path) %>
+        <% dimensions = WebpDimensions.read(file.path) %>
+        <% src_width = dimensions ? dimensions[0] : 1920 %>
+        <% medium_url = src_width > 960 ? relative_url("/assets/images/portfolio/#{base}-960w.webp") : image_url %>
+        <figure
+          class="reveal group mb-4 break-inside-avoid overflow-hidden rounded-2xl shadow-romantic border-2 border-warm-ivory transition-all duration-500 hover:shadow-xl"
+        >
+          <button
+            type="button"
+            class="block w-full cursor-pointer"
+            data-lightbox="<%= image_url %>"
+            data-lightbox-alt="<%= alt %>"
+            aria-label="Ampliar: <%= alt %>"
+          >
+            <img
+              src="<%= medium_url %>"
+              srcset="
+                <% if src_width > 480 %><%= relative_url "/assets/images/portfolio/#{base}-480w.webp" %> 480w,<% end %>
+                <% if src_width > 960 %><%= relative_url "/assets/images/portfolio/#{base}-960w.webp" %> 960w,<% end %>
+                <%= image_url %> <%= src_width %>w
+              "
+              sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 46vw, 100vw"
+              <% if dimensions %>width="<%= dimensions[0] %>" height="<%= dimensions[1] %>"<% end %>
+              alt="<%= alt %>"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto transition-transform duration-700 group-hover:scale-105"
+            />
+          </button>
+          <% unless title.empty? %>
+          <% details = [artwork&.year, artwork&.technique, artwork&.dimensions].map { |value| value.to_s.strip }.reject(&:empty?) %>
+          <figcaption class="px-4 py-3 bg-white">
+            <p class="font-serif text-base text-dusty-sage">
+              <% if work_url %>
+              <a href="<%= work_url %>" class="hover:text-muted-rose transition-colors"
+                ><%= title %></a
+              >
+              <% else %>
+              <%= title %>
+              <% end %>
+            </p>
+            <% unless details.empty? %>
+            <p class="text-xs text-soft-gray mt-1"><%= details.join(" · ") %></p>
+            <% end %>
+          </figcaption>
+          <% end %>
+        </figure>
+        <% end %>
+      </div>
+    </section>
+    <% end %>
+
+    <div class="text-center mt-12 reveal">
+      <p class="text-gray-600 mb-4">¿Te interesa una pieza personalizada?</p>
+      <a
+        href="<%= relative_url '/contacto/' %>"
+        class="inline-block bg-forest-sage hover:bg-deep-sage text-white font-medium px-8 py-3 rounded-full shadow-romantic transition-all duration-300"
+        >Hablemos de tu proyecto</a
+      >
     </div>
   </div>
 </section>

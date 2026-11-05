@@ -1,0 +1,142 @@
+---
+layout: default
+---
+<%
+  artwork = resource.data.artwork
+  filename = artwork["filename"].to_s
+  base = File.basename(filename, ".*")
+  image_path = "/assets/images/portfolio/#{filename}"
+  image_url = relative_url(image_path)
+  image_file = site.static_files.find { |file| file.relative_path.to_s == image_path }
+  dimensions = image_file ? WebpDimensions.read(image_file.path) : nil
+  width = dimensions ? dimensions[0] : 1920
+  height = dimensions ? dimensions[1] : 1080
+  page_url = absolute_url(resource.url)
+  title = artwork["title"].to_s
+  category = artwork["category"].to_s.strip
+  year = artwork["year"].to_s.strip
+  technique = artwork["technique"].to_s.strip
+  size = artwork["dimensions"].to_s.strip
+  alt = resource.data.image_alt.to_s.strip
+  alt = "Obra de Irasema Ezcurdia" if alt.empty?
+  description = resource.data.description.to_s
+  artwork_schema = {
+    "@context" => "https://schema.org",
+    "@type" => "VisualArtwork",
+    "@id" => "#{page_url}#artwork",
+    "url" => page_url,
+    "name" => title,
+    "description" => description,
+    "image" => absolute_url(image_path),
+    "creator" => { "@id" => "#{absolute_url('/')}#artist" },
+    "dateCreated" => year,
+    "artMedium" => technique,
+    "artform" => category,
+    "size" => size
+  }.reject { |_, value| value.to_s.strip.empty? }
+%>
+<script type="application/ld+json">
+<%== JSON.generate(artwork_schema) %>
+</script>
+<script type="application/ld+json">
+<%== JSON.generate({
+  "@context" => "https://schema.org",
+  "@type" => "BreadcrumbList",
+  "itemListElement" => [
+    { "@type" => "ListItem", "position" => 1, "name" => "Inicio", "item" => absolute_url("/") },
+    { "@type" => "ListItem", "position" => 2, "name" => "Portafolio", "item" => absolute_url("/full-portfolio/") },
+    { "@type" => "ListItem", "position" => 3, "name" => title, "item" => page_url }
+  ]
+}) %>
+</script>
+
+<section class="pt-32 pb-24 bg-gradient-to-b from-warm-ivory to-soft-cream">
+  <div class="max-w-6xl mx-auto px-4">
+    <nav aria-label="Ruta de navegación" class="mb-8 text-sm text-soft-gray">
+      <a href="<%= relative_url '/' %>" class="hover:text-muted-rose transition-colors"
+        >Inicio</a
+      >
+      <span class="mx-2" aria-hidden="true">/</span>
+      <a
+        href="<%= relative_url '/full-portfolio/' %>"
+        class="hover:text-muted-rose transition-colors"
+        >Portafolio</a
+      >
+      <span class="mx-2" aria-hidden="true">/</span>
+      <span aria-current="page" class="text-dusty-sage"><%= title %></span>
+    </nav>
+
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+      <div class="reveal">
+        <div class="relative">
+          <div
+            class="absolute -inset-4 bg-gradient-to-r from-blush to-rose-light rounded-3xl transform rotate-2"
+            aria-hidden="true"
+          ></div>
+          <img
+            src="<%= image_url %>"
+            srcset="
+              <% if width > 480 %><%= relative_url "/assets/images/portfolio/#{base}-480w.webp" %> 480w,<% end %>
+              <% if width > 960 %><%= relative_url "/assets/images/portfolio/#{base}-960w.webp" %> 960w,<% end %>
+              <%= image_url %> <%= width %>w
+            "
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            width="<%= width %>"
+            height="<%= height %>"
+            alt="<%= alt %>"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            class="relative rounded-2xl shadow-romantic w-full h-auto"
+          />
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="text-muted-rose text-sm uppercase tracking-widest">
+          <%= category.empty? ? "Obra" : category %>
+        </p>
+        <h1 class="font-serif text-4xl md:text-5xl text-dusty-sage mt-2 mb-4">
+          <%= title %>
+        </h1>
+        <div class="flex items-center mb-6">
+          <div class="h-px w-12 bg-muted-rose/40"></div>
+          <span class="mx-4 text-muted-rose">✧</span>
+          <div class="h-px w-12 bg-muted-rose/40"></div>
+        </div>
+
+        <% unless year.empty? && technique.empty? && size.empty? %>
+        <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm mb-6">
+          <% unless year.empty? %>
+          <dt class="text-soft-gray">Año</dt>
+          <dd class="text-gray-700"><%= year %></dd>
+          <% end %>
+          <% unless technique.empty? %>
+          <dt class="text-soft-gray">Técnica</dt>
+          <dd class="text-gray-700"><%= technique %></dd>
+          <% end %>
+          <% unless size.empty? %>
+          <dt class="text-soft-gray">Medidas</dt>
+          <dd class="text-gray-700"><%= size %></dd>
+          <% end %>
+        </dl>
+        <% end %>
+
+        <p class="text-gray-600 leading-relaxed mb-8"><%= description %></p>
+
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="<%= relative_url '/contacto/' %>"
+            class="inline-block bg-forest-sage hover:bg-deep-sage text-white font-medium px-8 py-3 rounded-full shadow-romantic transition-all duration-300"
+            >Consultar esta pieza</a
+          >
+          <a
+            href="<%= relative_url '/full-portfolio/' %>"
+            class="inline-block bg-white text-dusty-sage border border-muted-rose/30 hover:border-muted-rose font-medium px-8 py-3 rounded-full transition-all duration-300"
+            >Volver al portafolio</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

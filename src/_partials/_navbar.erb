@@ -9,7 +9,7 @@
       <a href="<%= relative_url '/' %>#hero" class="flex items-center space-x-3">
         <img
           src="<%= relative_url '/assets/images/logo.webp' %>"
-          alt="IE Logo"
+          alt="Irasema Ezcurdia"
           width="320"
           height="320"
           class="h-12 w-12 object-contain"
@@ -22,13 +22,15 @@
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center space-x-8">
         <a
-          href="<%= relative_url '/' %>#hero"
+          href="<%= relative_url '/' %>"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
+          <% if resource.relative_url == "/" %>aria-current="page"<% end %>
           >Inicio</a
         >
         <a
-          href="<%= relative_url '/' %>#portfolio"
+          href="<%= relative_url '/full-portfolio/' %>"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
+          <% if resource.relative_url.start_with?("/full-portfolio") %>aria-current="page"<% end %>
           >Portafolio</a
         >
         <a
@@ -37,23 +39,21 @@
           >Video</a
         >
         <a
-          href="<%= relative_url '/' %>#about"
+          href="<%= relative_url '/sobre-mi/' %>"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
+          <% if resource.relative_url.start_with?("/sobre-mi") %>aria-current="page"<% end %>
           >Sobre Mí</a
         >
         <a
-          href="<%= relative_url '/' %>#trayectoria"
+          href="<%= relative_url '/prensa/' %>"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
-          >Trayectoria</a
+          <% if resource.relative_url.start_with?("/prensa") %>aria-current="page"<% end %>
+          >Prensa</a
         >
         <a
-          href="<%= relative_url '/' %>#testimonials"
+          href="<%= relative_url '/contacto/' %>"
           class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
-          >Testimonios</a
-        >
-        <a
-          href="<%= relative_url '/' %>#contact"
-          class="nav-link text-gray-700 hover:text-dusty-sage transition-colors font-medium"
+          <% if resource.relative_url.start_with?("/contacto") %>aria-current="page"<% end %>
           >Contacto</a
         >
       </div>
@@ -86,31 +86,37 @@
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden pb-4">
-      <a href="<%= relative_url '/' %>#hero" class="block py-2 text-gray-700 hover:text-dusty-sage"
+      <a
+        href="<%= relative_url '/' %>"
+        class="block py-2 text-gray-700 hover:text-dusty-sage"
+        <% if resource.relative_url == "/" %>aria-current="page"<% end %>
         >Inicio</a
       >
       <a
-        href="<%= relative_url '/' %>#portfolio"
+        href="<%= relative_url '/full-portfolio/' %>"
         class="block py-2 text-gray-700 hover:text-dusty-sage"
+        <% if resource.relative_url.start_with?("/full-portfolio") %>aria-current="page"<% end %>
         >Portafolio</a
       >
       <a href="<%= relative_url '/' %>#video" class="block py-2 text-gray-700 hover:text-dusty-sage"
         >Video</a
       >
-      <a href="<%= relative_url '/' %>#about" class="block py-2 text-gray-700 hover:text-dusty-sage"
+      <a
+        href="<%= relative_url '/sobre-mi/' %>"
+        class="block py-2 text-gray-700 hover:text-dusty-sage"
+        <% if resource.relative_url.start_with?("/sobre-mi") %>aria-current="page"<% end %>
         >Sobre Mí</a
       >
       <a
-        href="<%= relative_url '/' %>#trayectoria"
+        href="<%= relative_url '/prensa/' %>"
         class="block py-2 text-gray-700 hover:text-dusty-sage"
-        >Trayectoria</a
+        <% if resource.relative_url.start_with?("/prensa") %>aria-current="page"<% end %>
+        >Prensa</a
       >
       <a
-        href="<%= relative_url '/' %>#testimonials"
+        href="<%= relative_url '/contacto/' %>"
         class="block py-2 text-gray-700 hover:text-dusty-sage"
-        >Testimonios</a
-      >
-      <a href="<%= relative_url '/' %>#contact" class="block py-2 text-gray-700 hover:text-dusty-sage"
+        <% if resource.relative_url.start_with?("/contacto") %>aria-current="page"<% end %>
         >Contacto</a
       >
     </div>

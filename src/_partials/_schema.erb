@@ -1,0 +1,64 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "<%= absolute_url '/' %>#website",
+      "url": "<%= absolute_url '/' %>",
+      "name": "<%= site.metadata.title %>",
+      "description": "<%= site.metadata.description %>",
+      "inLanguage": "es-MX",
+      "publisher": { "@id": "<%= absolute_url '/' %>#artist" }
+    },
+    {
+      "@type": "VisualArtist",
+      "@id": "<%= absolute_url '/' %>#artist",
+      "name": "Irasema Ezcurdia",
+      "url": "<%= absolute_url '/' %>",
+      "image": "<%= absolute_url '/assets/images/photo.webp' %>",
+      "jobTitle": "Artista plástica y creadora audiovisual",
+      "description": "Artista plástica mexicana especializada en cerámica, miniaturas, art toys, escultura y fotografía.",
+      "nationality": "Mexicana",
+      "email": "<%= site.metadata.email %>",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ciudad de México",
+        "addressCountry": "MX"
+      },
+      "knowsAbout": [
+        "Cerámica",
+        "Porcelana",
+        "Miniaturas",
+        "Art Toys",
+        "Escultura",
+        "Fotografía",
+        "Customización de muñecas",
+        "Pintura hiperrealista"
+      ],
+      "sameAs": [
+        "<%= site.metadata.instagram %>"
+      ],
+      "subjectOf": {
+        "@type": "Article",
+        "url": "https://pijamasurf.com/2024/09/irasema_ezcurdia/"
+      },
+      "award": "Primer lugar entre los países hispanohablantes en el certamen Mili Dueli, Bosnia Herzegovina",
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Activa, Escuela de Fotografía"
+      },
+      "worksFor": [
+        {
+          "@type": "Organization",
+          "name": "Armadillo Studio"
+        },
+        {
+          "@type": "Organization",
+          "name": "ENPEG La Esmeralda"
+        }
+      ]
+    }
+  ]
+}
+</script>

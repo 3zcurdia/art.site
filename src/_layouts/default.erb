@@ -3,8 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#faf8f3" />
-    <link rel="icon" href="<%= relative_url '/favicon.ico' %>" sizes="any" />
     <script>
       // Reveal animations only run with JavaScript. If main.js fails to
       // initialize, the load fallback restores the content instead of leaving
@@ -16,8 +14,8 @@
         }
       });
     </script>
-    <title><%= data.title || site.metadata.title %></title>
-    <meta name="description" content="<%= data.description || site.metadata.description %>" />
+    <%= render "seo" %>
+    <%= render "schema" %>
 
     <!-- Self-hosted fonts (src/assets/fonts). Preload the above-the-fold faces. -->
     <link
