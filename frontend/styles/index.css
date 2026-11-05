@@ -1,0 +1,123 @@
+@import "tailwindcss" source(none);
+
+/* Scan all Bridgetown templates and the vanilla JS for utility classes */
+@source "../../src/**/*.{html,erb,md}";
+@source "../../src/assets/js/**/*.js";
+
+@theme {
+  /* Japanese-inspired coquette palette */
+  --color-dusty-sage: #8a9a7d;
+  --color-soft-cream: #f8f5f0;
+  --color-muted-rose: #c58f93;
+  --color-aqua-teal: #6d9b9b;
+  --color-warm-ivory: #faf8f3;
+  --color-sage-green: #7a8d7a;
+  --color-soft-gray: #9b9995;
+  --color-pale-aqua: #8fb3b3;
+  --color-muted-coral: #d4a5a5;
+  --color-deep-teal: #5a7a7a;
+
+  /* Legacy palette still referenced by the markup */
+  --color-blush: #f2dcdc;
+  --color-rose-light: #f9ecec;
+  --color-cream: #fdf8f2;
+  --color-rose-gold: #b76e79;
+  --color-dusty-rose: #cf9a9e;
+  --color-soft-pink: #f7e4e4;
+
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Quicksand", system-ui, sans-serif;
+}
+
+/* Base typography */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: "Quicksand", sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", serif;
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+.animate-delay-100 {
+  animation-delay: 0.1s;
+}
+.animate-delay-200 {
+  animation-delay: 0.2s;
+}
+.animate-delay-300 {
+  animation-delay: 0.3s;
+}
+
+/* Lightbox styles */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+.lightbox.active {
+  display: flex;
+}
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.lightbox-close:hover {
+  transform: scale(1.2);
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delicate borders */
+.border-delicate {
+  border: 1px solid rgba(197, 143, 147, 0.3);
+}
+
+/* Soft shadow with Japanese aesthetic */
+.shadow-romantic {
+  box-shadow: 0 4px 20px rgba(122, 141, 122, 0.2);
+}

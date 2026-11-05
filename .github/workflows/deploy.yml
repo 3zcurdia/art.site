@@ -1,0 +1,51 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      # `bridgetown deploy` runs `rake deploy`, which precompiles Tailwind
+      # (npm run esbuild) and then generates the static site.
+      - name: Build site
+        run: bin/bridgetown deploy
+        env:
+          BRIDGETOWN_ENV: production
+
+      # GitHub Pages runs Jekyll on branch deploys by default, which strips
+      # underscore directories such as _bridgetown/ (where the CSS lives).
+      - name: Disable Jekyll processing
+        run: touch output/.nojekyll
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          publish_branch: gh-pages
+          cname: ezcurdia.art

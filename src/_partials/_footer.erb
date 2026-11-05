@@ -5,7 +5,7 @@
     <div class="text-center">
       <!-- Logo -->
       <img
-        src="{{ '/assets/images/logo.webp' | relative_url }}"
+        src="<%= relative_url '/assets/images/logo.webp' %>"
         alt="IE Logo"
         class="h-16 w-16 object-contain mx-auto mb-4"
       />
@@ -37,7 +37,7 @@
       </div>
 
       <p class="text-gray-500 text-sm">
-        &copy; {{ 'now' | date: '%Y' }} Irasema Ezcurdia. Todos los derechos
+        &copy; <%= Time.now.year %> Irasema Ezcurdia. Todos los derechos
         reservados.
       </p>
     </div>

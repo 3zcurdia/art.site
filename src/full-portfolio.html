@@ -4,10 +4,10 @@ title: Portafolio Completo
 description: Todas las obras de Irasema Ezcurdia - art toys, miniaturas y cerámica.
 permalink: /full-portfolio/
 ---
-
-{%- assign allImages = site.static_files | where_exp: "file", "file.path
-contains '/assets/images/portfolio/'" | where_exp: "file", "file.extname ==
-'.webp'" | sort: "name" | reverse -%}
+<% all_images = site.static_files
+  .select { |file| file.path.to_s.include?("assets/images/portfolio") && file.extname == ".webp" }
+  .sort_by(&:name)
+  .reverse %>
 
 <section class="pt-32 pb-24 bg-gradient-to-b from-warm-ivory to-soft-cream">
   <div class="max-w-7xl mx-auto px-4">
@@ -29,9 +29,9 @@ contains '/assets/images/portfolio/'" | where_exp: "file", "file.extname ==
         miniaturas y cerámica. Haz clic en cualquier imagen para verla a
         detalle.
       </p>
-      <p class="text-sm text-soft-gray mt-2">{{ allImages.size }} imágenes</p>
+      <p class="text-sm text-soft-gray mt-2"><%= all_images.size %> imágenes</p>
       <a
-        href="{{ '/' | relative_url }}"
+        href="<%= relative_url '/' %>"
         class="inline-block mt-6 text-dusty-sage hover:text-muted-rose transition-colors font-medium"
         >← Volver al inicio</a
       >
@@ -39,19 +39,19 @@ contains '/assets/images/portfolio/'" | where_exp: "file", "file.extname ==
 
     <!-- Masonry Gallery -->
     <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
-      {% for file in allImages %}
+      <% all_images.each do |file| %>
       <figure
         class="reveal group mb-4 break-inside-avoid overflow-hidden rounded-2xl shadow-romantic border-2 border-warm-ivory cursor-pointer transform transition-all duration-500 hover:shadow-xl"
-        onclick="openLightbox('{{ file.path | relative_url }}')"
+        onclick="openLightbox('<%= relative_url file.path %>')"
       >
         <img
-          src="{{ file.path | relative_url }}"
-          alt="Obra de Irasema Ezcurdia - {{ file.basename }}"
+          src="<%= relative_url file.path %>"
+          alt="Obra de Irasema Ezcurdia - <%= File.basename(file.path, '.*') %>"
           class="w-full h-auto transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
         />
       </figure>
-      {% endfor %}
+      <% end %>
     </div>
   </div>
 </section>
